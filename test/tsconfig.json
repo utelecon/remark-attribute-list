@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "types": ["node"],
+    "outDir": "../dist/test"
+  },
+  "include": ["index.ts"]
+}

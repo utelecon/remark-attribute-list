@@ -8,5 +8,6 @@
     "target": "es2022",
     "verbatimModuleSyntax": true
   },
-  "include": ["index.ts"]
+  "include": ["index.ts"],
+  "references": [{ "path": "./test/tsconfig.json" }]
 }
