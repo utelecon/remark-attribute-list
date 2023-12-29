@@ -1,0 +1,25 @@
+{
+  "name": "remark-plugin-attribute-list",
+  "version": "0.0.0",
+  "description": "Remark plugin to parse and apply Attribute List from Kramdown",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cm-ayf/remark-plugin-attribute-list.git"
+  },
+  "keywords": [
+    "markdown",
+    "mdast",
+    "plugin",
+    "remark",
+    "remark-plugin"
+  ],
+  "author": "cm-ayf <cm.ayf2734@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cm-ayf/remark-plugin-attribute-list/issues"
+  },
+  "homepage": "https://github.com/cm-ayf/remark-plugin-attribute-list#readme"
+}
