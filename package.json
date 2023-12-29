@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/cm-ayf/remark-plugin-attribute-list.git"
   },
+  "scripts": {
+    "build": "tsc"
+  },
   "keywords": [
     "markdown",
     "mdast",
@@ -21,5 +24,10 @@
   "bugs": {
     "url": "https://github.com/cm-ayf/remark-plugin-attribute-list/issues"
   },
-  "homepage": "https://github.com/cm-ayf/remark-plugin-attribute-list#readme"
+  "homepage": "https://github.com/cm-ayf/remark-plugin-attribute-list#readme",
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.2",
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  }
 }
