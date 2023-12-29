@@ -11,6 +11,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "xo:fix": "xo --fix",
+    "xo:check": "xo --check",
     "test": "tsc -p test/tsconfig.json && node dist/test/index.js"
   },
   "keywords": [
@@ -29,6 +31,10 @@
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.2",
     "@types/node": "^20.10.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "xo": "^0.56.0"
+  },
+  "xo": {
+    "prettier": true
   }
 }
