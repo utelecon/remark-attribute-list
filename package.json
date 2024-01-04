@@ -1,5 +1,5 @@
 {
-  "name": "remark-plugin-attribute-list",
+  "name": "remark-attribute-list",
   "version": "0.0.0",
   "description": "Remark plugin to parse and apply Attribute List from Kramdown",
   "type": "module",
@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cm-ayf/remark-plugin-attribute-list.git"
+    "url": "git+https://github.com/cm-ayf/remark-attribute-list.git"
   },
   "scripts": {
     "build": "tsc",
@@ -25,9 +25,9 @@
   "author": "cm-ayf <cm.ayf2734@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cm-ayf/remark-plugin-attribute-list/issues"
+    "url": "https://github.com/cm-ayf/remark-attribute-list/issues"
   },
-  "homepage": "https://github.com/cm-ayf/remark-plugin-attribute-list#readme",
+  "homepage": "https://github.com/cm-ayf/remark-attribute-list#readme",
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.2",
     "@types/node": "^20.10.5",

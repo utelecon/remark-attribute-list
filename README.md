@@ -1,1 +1,1 @@
-# remark-plugin-attribute-list
+# remark-attribute-list
