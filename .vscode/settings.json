@@ -1,15 +1,15 @@
 {
-  "xo.enable": true,
-  "xo.format.enable": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "samverschueren.linter-xo",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll": true
-    }
-  },
-  "[json]": {
-    "editor.defaultFormatter": "samverschueren.linter-xo",
-    "editor.formatOnSave": true
-  }
+	"xo.enable": true,
+	"xo.format.enable": true,
+	"[typescript]": {
+		"editor.defaultFormatter": "samverschueren.linter-xo",
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll": "explicit"
+		}
+	},
+	"[json]": {
+		"editor.defaultFormatter": "samverschueren.linter-xo",
+		"editor.formatOnSave": true
+	}
 }
