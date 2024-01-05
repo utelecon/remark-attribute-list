@@ -2,7 +2,7 @@ import type {Extension as MicromarkExtension} from 'micromark-util-types';
 import type {Extension as FromMarkdownExtension} from 'mdast-util-from-markdown';
 import type {Processor} from 'unified';
 import {micromarkExtension} from './micromark/index.js';
-import {transform} from './transform.js';
+import {transform} from './transform/index.js';
 import {fromMarkdownExtension} from './from-markdown.js';
 
 declare module 'unified' {
