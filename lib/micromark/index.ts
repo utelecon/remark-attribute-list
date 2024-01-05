@@ -1,7 +1,7 @@
 import type {Extension as MicromarkExtension} from 'micromark-util-types';
 import {codes} from 'micromark-util-symbol';
 import {attributeListDefinition} from './definition.js';
-import {blockInlineAttributeList} from './inline.js';
+import {blockInlineAttributeList, spanInlineAttributeList} from './inline.js';
 
 export const micromarkExtension: MicromarkExtension = {
 	contentInitial: {
@@ -9,5 +9,8 @@ export const micromarkExtension: MicromarkExtension = {
 	},
 	flow: {
 		[codes.leftCurlyBrace]: blockInlineAttributeList,
+	},
+	text: {
+		[codes.leftCurlyBrace]: spanInlineAttributeList,
 	},
 };
