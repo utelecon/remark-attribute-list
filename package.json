@@ -13,7 +13,7 @@
     "build": "tsc",
     "xo:fix": "xo --fix",
     "xo:check": "xo --check",
-		"test": "node --test --conditions development --watch",
+    "test": "node --test --conditions development --watch",
     "test:ci": "node --test --conditions development"
   },
   "keywords": [
@@ -33,10 +33,14 @@
     "@tsconfig/strictest": "^2.0.2",
     "@types/node": "^20.10.5",
     "is-hidden": "^2.0.1",
-		"remark-parse": "^11.0.0",
+    "rehype-stringify": "^10.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.0.0",
+    "to-vfile": "^8.0.0",
     "typescript": "^5.3.3",
     "unist-builder": "^4.0.0",
     "unist-util-remove-position": "^5.0.0",
+    "vfile": "^6.0.1",
     "xo": "^0.56.0"
   },
   "xo": {
