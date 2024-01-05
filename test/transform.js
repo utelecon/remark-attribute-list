@@ -25,7 +25,7 @@ await test('parsing', async (t) => {
 {:#id ref}
 `;
 			const tree = await process(source);
-			assert.deepStrictEqual(tree.children[1]?.data, {
+			assert.deepStrictEqual(tree.children[0]?.data, {
 				hProperties: {
 					id: 'id',
 					className: 'cls',
@@ -45,7 +45,7 @@ await test('parsing', async (t) => {
 *Emphasis*{:#id ref}
 `;
 			const tree = await process(source);
-			const p = tree.children[1];
+			const p = tree.children[0];
 			assert(p?.type === 'paragraph');
 			assert.deepStrictEqual(p.children[0]?.data, {
 				hProperties: {
@@ -67,7 +67,7 @@ await test('parsing', async (t) => {
 {:ref2}
 `;
 		const tree = await process(source);
-		assert.deepStrictEqual(tree.children[2]?.data, {
+		assert.deepStrictEqual(tree.children[0]?.data, {
 			hProperties: {
 				className: 'cls',
 			},
@@ -89,7 +89,7 @@ await test('parsing', async (t) => {
 # Heading
 `;
 		const tree = await process(source);
-		assert.deepStrictEqual(tree.children[1]?.data, {
+		assert.deepStrictEqual(tree.children[0]?.data, {
 			hProperties: {
 				className: 'cls',
 			},
@@ -110,7 +110,7 @@ await test('parsing', async (t) => {
 					className: 'cls',
 				},
 			});
-			assert.strictEqual(tree.children[2]?.data, undefined);
+			assert.strictEqual(tree.children[1]?.data, undefined);
 		},
 	);
 
@@ -126,7 +126,7 @@ await test('parsing', async (t) => {
 `;
 			const tree = await process(source);
 			assert.strictEqual(tree.children[0]?.data, undefined);
-			assert.strictEqual(tree.children[2]?.data, undefined);
+			assert.strictEqual(tree.children[1]?.data, undefined);
 		},
 	);
 
@@ -137,7 +137,7 @@ Some {:.cls}*Emphasis*
 		const tree = await process(source);
 		const p = tree.children[0];
 		assert(p?.type === 'paragraph');
-		assert.strictEqual(p.children[2]?.data, undefined);
+		assert.strictEqual(p.children[1]?.data, undefined);
 	});
 
 	await t.test(
@@ -149,7 +149,6 @@ Some *Emphasis* {:.cls}
 			const tree = await process(source);
 			const p = tree.children[0];
 			assert(p?.type === 'paragraph');
-			console.log(p.children);
 			assert.strictEqual(p.children[1]?.data, undefined);
 			assert.strictEqual(p.children[2]?.data, undefined);
 		},
@@ -175,17 +174,17 @@ Some *Emphasis* {:.cls}
 				className: 'cls1 cls2',
 			},
 		});
+		assert.deepStrictEqual(tree.children[1]?.data, {
+			hProperties: {
+				className: 'cls1 cls2',
+			},
+		});
 		assert.deepStrictEqual(tree.children[2]?.data, {
 			hProperties: {
 				className: 'cls1 cls2',
 			},
 		});
-		assert.deepStrictEqual(tree.children[4]?.data, {
-			hProperties: {
-				className: 'cls1 cls2',
-			},
-		});
-		assert.deepStrictEqual(tree.children[6]?.data, {
+		assert.deepStrictEqual(tree.children[3]?.data, {
 			hProperties: {
 				className: 'cls1 cls2',
 			},

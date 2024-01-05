@@ -17,15 +17,6 @@
       }
     },
     {
-      "type": "blockInlineAttributeList",
-      "children": [
-        {
-          "type": "idNameAttribute",
-          "name": "para-one"
-        }
-      ]
-    },
-    {
       "type": "blockquote",
       "children": [
         {
@@ -45,34 +36,6 @@
         },
         "id": "myid"
       }
-    },
-    {
-      "type": "blockInlineAttributeList",
-      "children": [
-        {
-          "type": "keyValueAttribute",
-          "key": "title",
-          "value": "The blockquote title"
-        }
-      ]
-    },
-    {
-      "type": "blockInlineAttributeList",
-      "children": [
-        {
-          "type": "idNameAttribute",
-          "name": "myid"
-        }
-      ]
-    },
-    {
-      "type": "blockInlineAttributeList",
-      "children": [
-        {
-          "type": "classNameAttribute",
-          "name": "ruby"
-        }
-      ]
     },
     {
       "type": "code",

@@ -55,6 +55,7 @@
     "micromark-util-symbol": "^2.0.0",
     "micromark-util-types": "^2.0.0",
     "unified": "^11.0.4",
+    "unist-util-remove": "^4.0.0",
     "unist-util-visit": "^5.0.0"
   },
   "peerDependencies": {

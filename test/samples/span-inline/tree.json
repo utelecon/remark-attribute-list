@@ -23,15 +23,6 @@
           }
         },
         {
-          "type": "spanInlineAttributeList",
-          "children": [
-            {
-              "type": "classNameAttribute",
-              "name": "underline"
-            }
-          ]
-        },
-        {
           "type": "text",
           "value": " some "
         },
@@ -45,24 +36,6 @@
             },
             "id": "id"
           }
-        },
-        {
-          "type": "spanInlineAttributeList",
-          "children": [
-            {
-              "type": "idNameAttribute",
-              "name": "id"
-            }
-          ]
-        },
-        {
-          "type": "spanInlineAttributeList",
-          "children": [
-            {
-              "type": "classNameAttribute",
-              "name": "class"
-            }
-          ]
         },
         {
           "type": "text",
@@ -85,16 +58,6 @@
           }
         },
         {
-          "type": "spanInlineAttributeList",
-          "children": [
-            {
-              "type": "keyValueAttribute",
-              "key": "rel",
-              "value": "something"
-            }
-          ]
-        },
-        {
           "type": "text",
           "value": " and some "
         },
@@ -111,15 +74,6 @@
               "className": "tools"
             }
           }
-        },
-        {
-          "type": "spanInlineAttributeList",
-          "children": [
-            {
-              "type": "classNameAttribute",
-              "name": "tools"
-            }
-          ]
         },
         {
           "type": "text",

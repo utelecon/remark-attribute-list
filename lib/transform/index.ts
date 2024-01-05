@@ -1,6 +1,7 @@
 import type {Root} from 'mdast';
 import {visit} from 'unist-util-visit';
 import {ok as assert} from 'devlop';
+import {remove} from 'unist-util-remove';
 import Definitions from './definitions.js';
 import assignAttributes from './assign-attributes.js';
 import findTarget from './find-target.js';
@@ -32,6 +33,12 @@ export function transform(tree: Root) {
 			if (attributes.length > 0) assignAttributes(target, attributes);
 		},
 	);
+
+	remove(tree, [
+		'attributeListDefinition',
+		'blockInlineAttributeList',
+		'spanInlineAttributeList',
+	]);
 
 	return tree;
 }
