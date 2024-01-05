@@ -56,11 +56,11 @@ function isNext(
 	// eslint-disable-next-line default-case
 	switch (type) {
 		case 'blockInlineAttributeList': {
-			return a.end.line === b.start.line + step;
+			return a.end.line === b.start.line - step;
 		}
 
 		case 'spanInlineAttributeList': {
-			return a.end.line === b.start.line + step;
+			return a.end.line === b.start.line - step;
 		}
 	}
 }
