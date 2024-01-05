@@ -9,7 +9,7 @@ export function transform(tree: Root) {
 	const definitions = new Definitions();
 
 	visit(tree, 'attributeListDefinition', (node) => {
-		definitions.set(node.name, node.list);
+		definitions.set(node);
 	});
 
 	visit(
@@ -27,9 +27,11 @@ export function transform(tree: Root) {
 			const target = findTarget(node, index, parent);
 			if (!target) return;
 
-			const attributes = definitions.resolve(node.list);
+			const attributes = definitions.resolve(node);
 
 			assignAttributes(target, attributes);
 		},
 	);
+
+	return tree;
 }

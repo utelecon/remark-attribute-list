@@ -5,6 +5,7 @@ import type {
 	Extension as FromMarkdownExtension,
 	Token,
 } from 'mdast-util-from-markdown';
+import type {Nodes} from 'mdast';
 
 export interface ReferenceAttribute extends Node {
 	type: 'referenceAttribute';
@@ -27,30 +28,27 @@ export interface KeyValueAttribute extends Node {
 	value: string;
 }
 
-export interface AttributeList extends Node {
-	type: 'attributeList';
-	attributes: Array<
-		| ReferenceAttribute
-		| IdNameAttribute
-		| ClassNameAttribute
-		| KeyValueAttribute
-	>;
+export type Attribute =
+	| ReferenceAttribute
+	| IdNameAttribute
+	| ClassNameAttribute
+	| KeyValueAttribute;
+
+export interface BaseAttributeList extends Node {
+	children: Attribute[];
 }
 
-export interface AttributeListDefinition extends Node {
+export interface AttributeListDefinition extends BaseAttributeList {
 	type: 'attributeListDefinition';
 	name: string;
-	list: AttributeList;
 }
 
-export interface BlockInlineAttributeList extends Node {
+export interface BlockInlineAttributeList extends BaseAttributeList {
 	type: 'blockInlineAttributeList';
-	list: AttributeList;
 }
 
-export interface SpanInlineAttributeList extends Node {
+export interface SpanInlineAttributeList extends BaseAttributeList {
 	type: 'spanInlineAttributeList';
-	list: AttributeList;
 }
 
 declare module 'mdast' {
@@ -67,6 +65,10 @@ declare module 'mdast' {
 		attributeListDefinition: AttributeListDefinition;
 		blockInlineAttributeList: BlockInlineAttributeList;
 		spanInlineAttributeList: SpanInlineAttributeList;
+		referenceAttribute: ReferenceAttribute;
+		idNameAttribute: IdNameAttribute;
+		classNameAttribute: ClassNameAttribute;
+		keyValueAttribute: KeyValueAttribute;
 	}
 }
 
@@ -76,7 +78,6 @@ export const fromMarkdownExtension: FromMarkdownExtension = {
 		attributeListDefinition: initialize,
 		blockInlineAttributeList: initialize,
 		spanInlineAttributeList: initialize,
-		attributeList: enterAttributeList,
 		referenceAttribute: enterReferenceAttribute,
 		idNameAttribute: enterIdNameAttribute,
 		classNameAttribute: enterClassNameAttribute,
@@ -106,8 +107,9 @@ function initialize(this: CompileContext, token: Token) {
 		{
 			type: token.type,
 			position: {start: token.start, end: token.end},
-			// @ts-expect-error: missing `name` and `list` are added later.
-		} satisfies Partial<AnyAttributeList>,
+			children: [],
+			// @ts-expect-error: missing `name` are added later.
+		} satisfies Extract<Nodes, BaseAttributeList>,
 		token,
 	);
 }
@@ -126,20 +128,10 @@ function exitAttributeListDefinitionReferenceName(
 	node.name = this.sliceSerialize(token);
 }
 
-function enterAttributeList(this: CompileContext, token: Token) {
-	const node = this.stack.at(-1);
-	assertAnyAttributeList(node);
-	node.list = {
-		type: 'attributeList',
-		attributes: [],
-		position: {start: token.start, end: token.end},
-	};
-}
-
 function enterReferenceAttribute(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	node.list.attributes.push({
+	node.children.push({
 		type: 'referenceAttribute',
 		position: {start: token.start, end: token.end},
 		// @ts-expect-error: missing `name` is added later.
@@ -149,7 +141,7 @@ function enterReferenceAttribute(this: CompileContext, token: Token) {
 function exitReferenceAttributeName(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	const tail = node.list.attributes.at(-1);
+	const tail = node.children.at(-1);
 	assert(tail?.type === 'referenceAttribute');
 	tail.name = this.sliceSerialize(token);
 }
@@ -157,7 +149,7 @@ function exitReferenceAttributeName(this: CompileContext, token: Token) {
 function enterIdNameAttribute(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	node.list.attributes.push({
+	node.children.push({
 		type: 'idNameAttribute',
 		position: {start: token.start, end: token.end},
 		// @ts-expect-error: missing `name` is added later.
@@ -167,7 +159,7 @@ function enterIdNameAttribute(this: CompileContext, token: Token) {
 function exitIdNameAttributeName(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	const tail = node.list.attributes.at(-1);
+	const tail = node.children.at(-1);
 	assert(tail?.type === 'idNameAttribute');
 	tail.name = this.sliceSerialize(token);
 }
@@ -175,7 +167,7 @@ function exitIdNameAttributeName(this: CompileContext, token: Token) {
 function enterClassNameAttribute(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	node.list.attributes.push({
+	node.children.push({
 		type: 'classNameAttribute',
 		position: {start: token.start, end: token.end},
 		// @ts-expect-error: missing `name` is added later.
@@ -185,7 +177,7 @@ function enterClassNameAttribute(this: CompileContext, token: Token) {
 function exitClassNameAttributeName(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	const tail = node.list.attributes.at(-1);
+	const tail = node.children.at(-1);
 	assert(tail?.type === 'classNameAttribute');
 	tail.name = this.sliceSerialize(token);
 }
@@ -193,7 +185,7 @@ function exitClassNameAttributeName(this: CompileContext, token: Token) {
 function enterKeyValuePairAttribute(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	node.list.attributes.push({
+	node.children.push({
 		type: 'keyValueAttribute',
 		position: {start: token.start, end: token.end},
 		// @ts-expect-error: missing `key` and `value` are added later.
@@ -203,7 +195,7 @@ function enterKeyValuePairAttribute(this: CompileContext, token: Token) {
 function exitKeyValuePairAttributeKey(this: CompileContext, token: Token) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	const tail = node.list.attributes.at(-1);
+	const tail = node.children.at(-1);
 	assert(tail?.type === 'keyValueAttribute');
 	tail.key = this.sliceSerialize(token);
 }
@@ -214,19 +206,14 @@ function exitKeyValuePairAttributeValueString(
 ) {
 	const node = this.stack.at(-1);
 	assertAnyAttributeList(node);
-	const tail = node.list.attributes.at(-1);
+	const tail = node.children.at(-1);
 	assert(tail?.type === 'keyValueAttribute');
 	tail.value = this.sliceSerialize(token).replaceAll(/\\(.)/g, '$1');
 }
 
-type AnyAttributeList =
-	| AttributeListDefinition
-	| BlockInlineAttributeList
-	| SpanInlineAttributeList;
-
 function assertAnyAttributeList(
-	node: CompileContext['stack'][number] | undefined,
-): asserts node is AnyAttributeList {
+	node: Node | undefined,
+): asserts node is BaseAttributeList {
 	assert(node);
 	assert(
 		[

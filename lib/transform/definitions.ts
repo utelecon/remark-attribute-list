@@ -1,5 +1,6 @@
 import type {
-	AttributeList,
+	AttributeListDefinition,
+	BaseAttributeList,
 	ClassNameAttribute,
 	IdNameAttribute,
 	KeyValueAttribute,
@@ -12,21 +13,20 @@ export type ResolvedAttribute =
 	| KeyValueAttribute;
 
 export default class Definitions {
-	readonly #definitions = new Map<string, AttributeList>();
+	readonly #definitions = new Map<string, AttributeListDefinition>();
 
-	set(name: string, list: AttributeList) {
-		this.#definitions.set(name, list);
+	set(node: AttributeListDefinition) {
+		this.#definitions.set(node.name, node);
 	}
 
-	resolve(list: AttributeList) {
-		let _list: AttributeList | undefined = list;
-
+	resolve(list: BaseAttributeList) {
 		const stack: ReferenceAttribute[] = [];
 		const resolved: ResolvedAttribute[] = [];
 
 		let reference: ReferenceAttribute | undefined;
+		let current: BaseAttributeList | undefined = list;
 		do {
-			for (const attribute of _list.attributes) {
+			for (const attribute of current.children) {
 				if (attribute.type === 'referenceAttribute') {
 					if (!stack.some((ref) => ref.name === attribute.name))
 						stack.push(attribute);
@@ -36,7 +36,7 @@ export default class Definitions {
 			}
 		} while (
 			(reference = stack.pop()) &&
-			(_list = this.#definitions.get(reference.name))
+			(current = this.#definitions.get(reference.name))
 		);
 
 		return resolved;
