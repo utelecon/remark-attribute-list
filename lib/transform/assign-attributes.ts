@@ -9,7 +9,7 @@ import type {ResolvedAttribute} from './definitions.js';
 
 interface MdastData extends Data {
 	id?: string;
-	hProperties?: Properties;
+	hProperties: Properties;
 }
 
 export default function assignAttributes(
@@ -58,6 +58,7 @@ function upsertMdxJsxAttribute(
 	value: string,
 	append = false,
 ) {
+	if (name === 'class') name = 'className';
 	const attr = node.attributes.find(
 		(attr): attr is MdxJsxAttribute =>
 			attr.type === 'mdxJsxAttribute' && attr.name === name,
@@ -87,30 +88,43 @@ function assignMarkdownProperties(
 	for (const attribute of attributes) {
 		switch (attribute.type) {
 			case 'idNameAttribute': {
-				data.hProperties['id'] = attribute.name;
+				upsertMarkdownProperty(data, 'id', attribute.name);
 				break;
 			}
 
 			case 'classNameAttribute': {
-				if (typeof data.hProperties['className'] === 'string') {
-					data.hProperties['className'] += ` ${attribute.name}`;
-				} else {
-					data.hProperties['className'] = attribute.name;
-				}
-
+				upsertMarkdownProperty(data, 'className', attribute.name, true);
 				break;
 			}
 
 			case 'keyValueAttribute': {
-				data.hProperties[attribute.key] = attribute.value;
+				upsertMarkdownProperty(data, attribute.key, attribute.value);
 				break;
 			}
 
 			default:
 		}
+	}
+}
 
-		if (attribute.type === 'idNameAttribute') {
-			data.id = attribute.name;
+function upsertMarkdownProperty(
+	data: MdastData,
+	name: string,
+	value: string,
+	append = false,
+) {
+	if (name === 'class') name = 'className';
+	if (typeof data.hProperties[name] === 'string') {
+		if (append) {
+			(data.hProperties[name] as string) += ` ${value}`;
+		} else {
+			data.hProperties[name] = value;
 		}
+	} else {
+		data.hProperties[name] = value;
+	}
+
+	if (name === 'id') {
+		data.id = value;
 	}
 }

@@ -2,14 +2,13 @@
 	"extends": "@tsconfig/strictest",
 	"compilerOptions": {
 		"rootDir": ".",
-		"noEmit": false,
 		"declaration": true,
 		"outDir": "dist",
 		"module": "node16",
 		"target": "es2022",
 		"verbatimModuleSyntax": true
 	},
-	"include": ["*.ts"],
+	"include": ["index.ts", "lib"],
 	"exclude": ["dist", "test"],
 	"references": [{ "path": "./test/tsconfig.json" }]
 }

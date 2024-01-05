@@ -5,7 +5,7 @@ import type {
 	IdNameAttribute,
 	KeyValueAttribute,
 	ReferenceAttribute,
-} from '../from-markdown.js';
+} from '../mdast.js';
 
 export type ResolvedAttribute =
 	| IdNameAttribute

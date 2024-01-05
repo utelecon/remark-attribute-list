@@ -18,11 +18,6 @@ declare module 'micromark-util-types' {
 		attributeListDefinitionMarker: 'attributeListStartMarker';
 
 		/**
-		 * The space(s) between the marker and the reference
-		 */
-		attributeListDefinitionSpace: 'attributeListDefinitionSpace';
-
-		/**
 		 * The attribute list definition reference (`:label:`)
 		 */
 		attributeListDefinitionReference: 'attributeListDefinitionReference';
@@ -62,21 +57,10 @@ function tokenize(
 		effects.enter('attributeListDefinitionMarker');
 		effects.consume(code);
 		effects.exit('attributeListDefinitionMarker');
-		return spaceOrReferenceStart;
+		return referenceStart;
 	};
 
-	let spaces = 0;
-	const spaceOrReferenceStart: State = (code) => {
-		if (code === codes.space) {
-			if (spaces === 0) effects.enter('attributeListDefinitionSpace');
-			spaces++;
-			if (spaces > 3) return nok(code);
-			effects.consume(code);
-			return spaceOrReferenceStart;
-		}
-
-		if (spaces > 0) effects.exit('attributeListDefinitionSpace');
-
+	const referenceStart: State = (code) => {
 		if (code === codes.colon) {
 			effects.enter('attributeListDefinitionReference');
 			effects.enter('attributeListDefinitionReferenceMarker');

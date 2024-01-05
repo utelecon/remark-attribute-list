@@ -29,7 +29,7 @@ export function transform(tree: Root) {
 
 			const attributes = definitions.resolve(node);
 
-			assignAttributes(target, attributes);
+			if (attributes.length > 0) assignAttributes(target, attributes);
 		},
 	);
 
