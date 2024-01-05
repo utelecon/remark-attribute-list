@@ -1,10 +1,11 @@
 {
   "name": "remark-attribute-list",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "description": "Remark plugin to parse and apply Attribute List from Kramdown",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+	"files": ["dist"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cm-ayf/remark-attribute-list.git"
