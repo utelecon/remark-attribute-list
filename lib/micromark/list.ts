@@ -104,28 +104,15 @@ function tokenize(
 	ok: State,
 	nok: State,
 ): State {
-	effects.enter('attributeList');
-
-	let spaces = 0;
 	const start: State = (code) => {
-		if (code === codes.rightCurlyBrace) {
-			effects.exit('attributeList');
-			return ok(code);
-		}
+		effects.enter('attributeList');
+		return next(code);
+	};
 
+	const next: State = (code) => {
 		if (unicodeWhitespace(code)) {
-			if (spaces === 0) effects.enter('attributeListSpace');
-			spaces++;
-			effects.consume(code);
-			return start;
+			return spaceOrEnd(code);
 		}
-
-		if (spaces === 0) {
-			return nok(code);
-		}
-
-		effects.exit('attributeListSpace');
-		spaces = 0;
 
 		if (code === codes.numberSign) {
 			effects.enter('idNameAttribute');
@@ -155,6 +142,30 @@ function tokenize(
 		return nok(code);
 	};
 
+	let spaces = 0;
+	const spaceOrEnd: State = (code) => {
+		if (code === codes.rightCurlyBrace) {
+			if (spaces > 0) effects.exit('attributeListSpace');
+			effects.exit('attributeList');
+			return ok(code);
+		}
+
+		if (unicodeWhitespace(code)) {
+			if (spaces === 0) effects.enter('attributeListSpace');
+			spaces++;
+			effects.consume(code);
+			return spaceOrEnd;
+		}
+
+		if (spaces > 0) {
+			effects.exit('attributeListSpace');
+			spaces = 0;
+			return next(code);
+		}
+
+		return nok(code);
+	};
+
 	const idNameAttributeNameFirst: State = (code) => {
 		if (!asciiAlpha(code)) return nok(code);
 		effects.enter('idNameAttributeName');
@@ -174,14 +185,14 @@ function tokenize(
 
 		effects.exit('idNameAttributeName');
 		effects.exit('idNameAttribute');
-		return start(code);
+		return spaceOrEnd(code);
 	};
 
 	const classNameAttributeName: State = (code) => {
 		if (unicodeWhitespace(code) || code === codes.rightCurlyBrace) {
 			effects.exit('classNameAttributeName');
 			effects.exit('classNameAttribute');
-			return start(code);
+			return spaceOrEnd(code);
 		}
 
 		if (code === codes.dot || code === codes.numberSign) {
@@ -201,7 +212,7 @@ function tokenize(
 		}
 
 		// `effects.exit('referenceAttribute')` will be added later on resolveAll
-		return start(code);
+		return spaceOrEnd(code);
 	};
 
 	let keyValuePairAttributeValueMarker: Code | undefined;
@@ -241,7 +252,7 @@ function tokenize(
 			effects.exit('keyValuePairAttributeValueMarker');
 			effects.exit('keyValuePairAttributeValue');
 			// `effects.exit('keyValuePairAttribute')` will be added later on resolveAll
-			return start;
+			return spaceOrEnd;
 		}
 
 		effects.consume(code);
