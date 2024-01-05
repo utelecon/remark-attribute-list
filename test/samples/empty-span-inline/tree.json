@@ -1,0 +1,54 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This "
+        },
+        {
+          "type": "emphasis",
+          "children": [
+            {
+              "type": "text",
+              "value": "is italic"
+            }
+          ]
+        },
+        {
+          "type": "spanInlineAttributeList",
+          "children": []
+        },
+        {
+          "type": "emphasis",
+          "children": [
+            {
+              "type": "text",
+              "value": "marked"
+            }
+          ],
+          "data": {
+            "hProperties": {
+              "className": "special"
+            }
+          }
+        },
+        {
+          "type": "spanInlineAttributeList",
+          "children": [
+            {
+              "type": "classNameAttribute",
+              "name": "special"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " text"
+        }
+      ]
+    }
+  ]
+}

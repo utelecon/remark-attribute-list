@@ -1,0 +1,89 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "A simple paragraph with an ID attribute."
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "id": "para-one"
+        },
+        "id": "para-one"
+      }
+    },
+    {
+      "type": "blockInlineAttributeList",
+      "children": [
+        {
+          "type": "idNameAttribute",
+          "name": "para-one"
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "A blockquote with a title"
+            }
+          ]
+        }
+      ],
+      "data": {
+        "hProperties": {
+          "title": "The blockquote title",
+          "id": "myid"
+        },
+        "id": "myid"
+      }
+    },
+    {
+      "type": "blockInlineAttributeList",
+      "children": [
+        {
+          "type": "keyValueAttribute",
+          "key": "title",
+          "value": "The blockquote title"
+        }
+      ]
+    },
+    {
+      "type": "blockInlineAttributeList",
+      "children": [
+        {
+          "type": "idNameAttribute",
+          "name": "myid"
+        }
+      ]
+    },
+    {
+      "type": "blockInlineAttributeList",
+      "children": [
+        {
+          "type": "classNameAttribute",
+          "name": "ruby"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "lang": null,
+      "meta": null,
+      "value": "Some code here",
+      "data": {
+        "hProperties": {
+          "className": "ruby"
+        }
+      }
+    }
+  ]
+}

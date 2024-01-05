@@ -13,7 +13,8 @@
     "build": "tsc",
     "xo:fix": "xo --fix",
     "xo:check": "xo --check",
-    "test": "tsc -p test/tsconfig.json && node --conditions development dist/test/index.js"
+		"test": "node --test --conditions development --watch",
+    "test:ci": "node --test --conditions development"
   },
   "keywords": [
     "markdown",
@@ -32,7 +33,10 @@
     "@tsconfig/strictest": "^2.0.2",
     "@types/node": "^20.10.5",
     "is-hidden": "^2.0.1",
+		"remark-parse": "^11.0.0",
     "typescript": "^5.3.3",
+    "unist-builder": "^4.0.0",
+    "unist-util-remove-position": "^5.0.0",
     "xo": "^0.56.0"
   },
   "xo": {
@@ -50,7 +54,6 @@
     "micromark-util-character": "^2.0.1",
     "micromark-util-symbol": "^2.0.0",
     "micromark-util-types": "^2.0.0",
-    "remark-parse": "^11.0.0",
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0"
   },

@@ -8,6 +8,13 @@
 			"source.fixAll": "explicit"
 		}
 	},
+	"[javascript]": {
+		"editor.defaultFormatter": "samverschueren.linter-xo",
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll": "explicit"
+		}
+	},
 	"[json]": {
 		"editor.defaultFormatter": "samverschueren.linter-xo",
 		"editor.formatOnSave": true

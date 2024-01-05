@@ -2,8 +2,10 @@
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"composite": true,
+		"allowJs": true,
+		"checkJs": true,
 		"types": ["node"]
 	},
-	"include": ["../**/*.ts"],
+	"include": ["*.js"],
 	"exclude": ["../dist"]
 }
