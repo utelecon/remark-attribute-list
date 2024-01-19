@@ -40,7 +40,7 @@ const processor = unified()
 	.use(remarkAttributeList)
 	.use(remarkRehype)
 	.use(rehypeStringify);
-const file = await processor.process(await read('example.md'))
+const file = await processor.process(await read('input.md'))
 
 console.log(String(file))
 ```
