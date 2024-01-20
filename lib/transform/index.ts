@@ -2,43 +2,50 @@ import type {Root} from 'mdast';
 import {visit} from 'unist-util-visit';
 import {ok as assert} from 'devlop';
 import {remove} from 'unist-util-remove';
+import type {Transform} from 'mdast-util-from-markdown';
+import type {Options} from '../index.js';
 import Definitions from './definitions.js';
 import assignAttributes from './assign-attributes.js';
-import findTarget from './find-target.js';
+import {createFindTarget} from './find-target.js';
 
-export function transform(tree: Root) {
-	const definitions = new Definitions();
+export function createTransform(options?: Options): Transform {
+	const findTarget = createFindTarget(options);
+	return transform;
 
-	visit(tree, 'attributeListDefinition', (node) => {
-		definitions.set(node);
-	});
+	function transform(tree: Root) {
+		const definitions = new Definitions();
 
-	visit(
-		tree,
-		['blockInlineAttributeList', 'spanInlineAttributeList'] as const,
-		(node, index, parent) => {
-			// `typeof node` should be narrowed, but is not, due to bug on `visit`
-			assert(
-				node.type === 'blockInlineAttributeList' ||
-					node.type === 'spanInlineAttributeList',
-			);
-			assert(parent);
-			assert(typeof index === 'number');
+		visit(tree, 'attributeListDefinition', (node) => {
+			definitions.set(node);
+		});
 
-			const target = findTarget(node, index, parent);
-			if (!target) return;
+		visit(
+			tree,
+			['blockInlineAttributeList', 'spanInlineAttributeList'] as const,
+			(node, index, parent) => {
+				// `typeof node` should be narrowed, but is not, due to bug on `visit`
+				assert(
+					node.type === 'blockInlineAttributeList' ||
+						node.type === 'spanInlineAttributeList',
+				);
+				assert(parent);
+				assert(typeof index === 'number');
 
-			const attributes = definitions.resolve(node);
+				const target = findTarget(node, index, parent);
+				if (!target) return;
 
-			if (attributes.length > 0) assignAttributes(target, attributes);
-		},
-	);
+				const attributes = definitions.resolve(node);
 
-	remove(tree, [
-		'attributeListDefinition',
-		'blockInlineAttributeList',
-		'spanInlineAttributeList',
-	]);
+				if (attributes.length > 0) assignAttributes(target, attributes);
+			},
+		);
 
-	return tree;
+		remove(tree, [
+			'attributeListDefinition',
+			'blockInlineAttributeList',
+			'spanInlineAttributeList',
+		]);
+
+		return tree;
+	}
 }

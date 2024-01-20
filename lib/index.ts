@@ -2,7 +2,7 @@ import type {Extension as MicromarkExtension} from 'micromark-util-types';
 import type {Extension as FromMarkdownExtension} from 'mdast-util-from-markdown';
 import type {Processor} from 'unified';
 import {micromarkExtension} from './micromark/index.js';
-import {transform} from './transform/index.js';
+import {createTransform} from './transform/index.js';
 import {fromMarkdownExtension} from './from-markdown.js';
 
 declare module 'unified' {
@@ -17,6 +17,7 @@ declare module 'unified' {
 export interface Options {
 	allowNoSpaceBeforeName?: boolean;
 	allowUnderscoreInId?: boolean;
+	allowNoPosition?: boolean;
 }
 
 export default function remarkAttributeList(
@@ -31,5 +32,5 @@ export default function remarkAttributeList(
 	data.fromMarkdownExtensions ??= [];
 	data.fromMarkdownExtensions.push(fromMarkdownExtension);
 
-	return transform;
+	return createTransform(options);
 }
