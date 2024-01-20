@@ -2,13 +2,12 @@ import type {Root} from 'mdast';
 import {visit} from 'unist-util-visit';
 import {ok as assert} from 'devlop';
 import {remove} from 'unist-util-remove';
-import type {Transform} from 'mdast-util-from-markdown';
 import type {Options} from '../index.js';
 import Definitions from './definitions.js';
 import assignAttributes from './assign-attributes.js';
 import {createFindTarget} from './find-target.js';
 
-export function createTransform(options?: Options): Transform {
+export function createTransform(options?: Options) {
 	const findTarget = createFindTarget(options);
 	return transform;
 
