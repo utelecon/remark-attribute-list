@@ -5,6 +5,7 @@ import type {
 	State,
 	TokenizeContext,
 } from 'micromark-util-types';
+import type {Options} from '../index.js';
 import {attributeList} from './list.js';
 
 declare module 'micromark-util-types' {
@@ -24,45 +25,48 @@ declare module 'micromark-util-types' {
 	}
 }
 
-export const blockInlineAttributeList: Construct = {
-	tokenize,
-};
-
-function tokenize(
-	this: TokenizeContext,
-	effects: Effects,
-	ok: State,
-	nok: State,
-): State {
-	const start: State = (code) => {
-		if (code !== codes.leftCurlyBrace) return nok(code);
-		effects.enter('blockInlineAttributeList');
-		effects.enter('blockInlineAttributeListMarker');
-		effects.consume(code);
-		effects.exit('blockInlineAttributeListMarker');
-		return colon;
+export function blockInlineAttributeList(options?: Options): Construct {
+	const list = attributeList(options);
+	return {
+		tokenize,
 	};
 
-	const colon: State = (code) => {
-		if (code === codes.colon) {
+	function tokenize(
+		this: TokenizeContext,
+		effects: Effects,
+		ok: State,
+		nok: State,
+	): State {
+		const start: State = (code) => {
+			if (code !== codes.leftCurlyBrace) return nok(code);
+			effects.enter('blockInlineAttributeList');
 			effects.enter('blockInlineAttributeListMarker');
 			effects.consume(code);
 			effects.exit('blockInlineAttributeListMarker');
+			return colon;
+		};
 
-			return effects.attempt(attributeList, end, nok);
-		}
+		const colon: State = (code) => {
+			if (code === codes.colon) {
+				effects.enter('blockInlineAttributeListMarker');
+				effects.consume(code);
+				effects.exit('blockInlineAttributeListMarker');
 
-		return nok(code);
-	};
+				return effects.attempt(list, end, nok);
+			}
 
-	const end: State = (code) => {
-		if (code !== codes.rightCurlyBrace) return nok(code);
-		effects.enter('blockInlineAttributeListMarker');
-		effects.consume(code);
-		effects.exit('blockInlineAttributeListMarker');
-		effects.exit('blockInlineAttributeList');
-		return ok;
-	};
+			return nok(code);
+		};
 
-	return start;
+		const end: State = (code) => {
+			if (code !== codes.rightCurlyBrace) return nok(code);
+			effects.enter('blockInlineAttributeListMarker');
+			effects.consume(code);
+			effects.exit('blockInlineAttributeListMarker');
+			effects.exit('blockInlineAttributeList');
+			return ok;
+		};
+
+		return start;
+	}
 }
