@@ -14,10 +14,19 @@ declare module 'unified' {
 	}
 }
 
-export default function remarkAttributeList(this: Processor) {
+export interface Options {
+	allowNoSpaceBeforeName?: boolean;
+	allowUnderscoreInId?: boolean;
+}
+
+export default function remarkAttributeList(
+	this: Processor,
+	options?: Options,
+) {
 	const data = this.data();
+
 	data.micromarkExtensions ??= [];
-	data.micromarkExtensions.push(micromarkExtension);
+	data.micromarkExtensions.push(micromarkExtension(options));
 
 	data.fromMarkdownExtensions ??= [];
 	data.fromMarkdownExtensions.push(fromMarkdownExtension);

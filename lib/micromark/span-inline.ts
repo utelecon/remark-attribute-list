@@ -5,6 +5,7 @@ import type {
 	State,
 	TokenizeContext,
 } from 'micromark-util-types';
+import type {Options} from '../index.js';
 import {attributeList} from './list.js';
 
 declare module 'micromark-util-types' {
@@ -24,57 +25,60 @@ declare module 'micromark-util-types' {
 	}
 }
 
-export const spanInlineAttributeList: Construct = {
-	tokenize,
-};
-
-function tokenize(
-	this: TokenizeContext,
-	effects: Effects,
-	ok: State,
-	nok: State,
-): State {
-	const start: State = (code) => {
-		if (code !== codes.leftCurlyBrace) return nok(code);
-		effects.enter('spanInlineAttributeList');
-		effects.enter('spanInlineAttributeListMarker');
-		effects.consume(code);
-		effects.exit('spanInlineAttributeListMarker');
-		return colon;
+export function spanInlineAttributeList(options?: Options): Construct {
+	const list = attributeList(options);
+	return {
+		tokenize,
 	};
 
-	const colon: State = (code) => {
-		if (code === codes.colon) {
+	function tokenize(
+		this: TokenizeContext,
+		effects: Effects,
+		ok: State,
+		nok: State,
+	): State {
+		const start: State = (code) => {
+			if (code !== codes.leftCurlyBrace) return nok(code);
+			effects.enter('spanInlineAttributeList');
 			effects.enter('spanInlineAttributeListMarker');
 			effects.consume(code);
 			effects.exit('spanInlineAttributeListMarker');
+			return colon;
+		};
 
-			return listOrColon;
-		}
+		const colon: State = (code) => {
+			if (code === codes.colon) {
+				effects.enter('spanInlineAttributeListMarker');
+				effects.consume(code);
+				effects.exit('spanInlineAttributeListMarker');
 
-		return nok(code);
-	};
+				return listOrColon;
+			}
 
-	const listOrColon: State = (code) => {
-		if (code === codes.colon) {
+			return nok(code);
+		};
+
+		const listOrColon: State = (code) => {
+			if (code === codes.colon) {
+				effects.enter('spanInlineAttributeListMarker');
+				effects.consume(code);
+				effects.exit('spanInlineAttributeListMarker');
+
+				return end;
+			}
+
+			return effects.attempt(list, end, nok)(code);
+		};
+
+		const end: State = (code) => {
+			if (code !== codes.rightCurlyBrace) return nok(code);
 			effects.enter('spanInlineAttributeListMarker');
 			effects.consume(code);
 			effects.exit('spanInlineAttributeListMarker');
+			effects.exit('spanInlineAttributeList');
+			return ok;
+		};
 
-			return end;
-		}
-
-		return effects.attempt(attributeList, end, nok)(code);
-	};
-
-	const end: State = (code) => {
-		if (code !== codes.rightCurlyBrace) return nok(code);
-		effects.enter('spanInlineAttributeListMarker');
-		effects.consume(code);
-		effects.exit('spanInlineAttributeListMarker');
-		effects.exit('spanInlineAttributeList');
-		return ok;
-	};
-
-	return start;
+		return start;
+	}
 }
