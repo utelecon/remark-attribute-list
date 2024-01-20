@@ -208,6 +208,8 @@ export function attributeList(options?: Options): Construct {
 
 			if (code === codes.dot || code === codes.numberSign) {
 				if (options?.allowNoSpaceBeforeName) {
+					effects.exit('classNameAttributeName');
+					effects.exit('classNameAttribute');
 					return next(code);
 				}
 
