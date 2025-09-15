@@ -1,6 +1,6 @@
 {
   "name": "remark-attribute-list",
-  "version": "0.3.1",
+  "version": "0.4.0-rc.2",
   "description": "Remark plugin to parse and apply Attribute List from Kramdown",
   "type": "module",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
 	"files": ["dist"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cm-ayf/remark-attribute-list.git"
+    "url": "git+https://github.com/utelecon/remark-attribute-list.git"
   },
   "scripts": {
     "build": "tsc",
@@ -27,12 +27,15 @@
   "author": "cm-ayf <cm.ayf2734@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cm-ayf/remark-attribute-list/issues"
+    "url": "https://github.com/utelecon/remark-attribute-list/issues"
   },
-  "homepage": "https://github.com/cm-ayf/remark-attribute-list#readme",
+  "homepage": "https://github.com/utelecon/remark-attribute-list#readme",
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.2",
+    "@types/hast": "^3.0.3",
+    "@types/mdast": "^4.0.3",
     "@types/node": "^20.10.5",
+    "@types/unist": "^3.0.2",
     "is-hidden": "^2.0.1",
     "rehype-stringify": "^10.0.0",
     "remark-parse": "^11.0.0",
@@ -51,20 +54,22 @@
     }
   },
   "dependencies": {
-    "@types/hast": "^3.0.3",
-    "@types/mdast": "^4.0.3",
-    "@types/unist": "^3.0.2",
     "devlop": "^1.1.0",
-    "mdast-util-from-markdown": "^2.0.0",
     "micromark-util-character": "^2.0.1",
     "micromark-util-symbol": "^2.0.0",
-    "micromark-util-types": "^2.0.0",
-    "unified": "^11.0.4",
     "unist-util-remove": "^4.0.0",
     "unist-util-visit": "^5.0.0"
   },
   "peerDependencies": {
+		"@types/mdast": "^4.0.0",
+		"@types/unist": "^3.0.0",
+		"mdast-util-from-markdown": "^2.0.0",
     "mdast-util-mdx": "^3.0.0",
-    "remark-parse": "^11.0.0"
-  }
+		"micromark-util-types": "^2.0.0",
+    "remark-parse": "^11.0.0",
+		"unified": "^11.0.0"
+  },
+	"engines": {
+		"node": ">=20.0.0"
+	}
 }

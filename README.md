@@ -1,6 +1,6 @@
 # remark-attribute-list
 
-[![](https://github.com/cm-ayf/remark-attribute-list/actions/workflows/ci.yml/badge.svg)](https://github.com/cm-ayf/remark-attribute-list/actions)
+[![](https://github.com/utelecon/remark-attribute-list/actions/workflows/ci.yml/badge.svg)](https://github.com/utelecon/remark-attribute-list/actions)
 
 Remark plugin to parse [Attribute List Definitions](https://kramdown.gettalong.org/syntax.html#attribute-list-definitions) and [Inline Attribute Lists](https://kramdown.gettalong.org/syntax.html#inline-attribute-lists) from [Kramdown](https://kramdown.gettalong.org).
 
