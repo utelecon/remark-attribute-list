@@ -40,20 +40,37 @@ export const fromMarkdownExtension: FromMarkdownExtension = {
 };
 
 function initialize(this: CompileContext, token: Token) {
-	assert(
-		token.type === 'attributeListDefinition' ||
-			token.type === 'blockInlineAttributeList' ||
-			token.type === 'spanInlineAttributeList',
-	);
-	this.enter(
-		{
-			type: token.type,
-			position: {start: token.start, end: token.end},
-			children: [],
-			// @ts-expect-error: missing `name` are added later.
-		} satisfies Extract<Nodes, BaseAttributeList>,
-		token,
-	);
+	switch (token.type) {
+		case 'attributeListDefinition': {
+			this.enter(
+				{
+					type: token.type,
+					position: {start: token.start, end: token.end},
+					children: [],
+					name: '', // Will be replaced later
+				} satisfies Extract<Nodes, BaseAttributeList>,
+				token,
+			);
+			break;
+		}
+
+		case 'blockInlineAttributeList':
+		case 'spanInlineAttributeList': {
+			this.enter(
+				{
+					type: token.type,
+					position: {start: token.start, end: token.end},
+					children: [],
+				} satisfies Extract<Nodes, BaseAttributeList>,
+				token,
+			);
+			break;
+		}
+
+		default: {
+			assert(false, `Unexpected token type: ${token.type}`);
+		}
+	}
 }
 
 function complete(this: CompileContext, token: Token) {
@@ -76,7 +93,7 @@ function enterReferenceAttribute(this: CompileContext, token: Token) {
 	node.children.push({
 		type: 'referenceAttribute',
 		position: {start: token.start, end: token.end},
-		// @ts-expect-error: missing `name` is added later.
+		name: '', // Will be replaced later
 	} satisfies Partial<ReferenceAttribute>);
 }
 
@@ -94,7 +111,7 @@ function enterIdNameAttribute(this: CompileContext, token: Token) {
 	node.children.push({
 		type: 'idNameAttribute',
 		position: {start: token.start, end: token.end},
-		// @ts-expect-error: missing `name` is added later.
+		name: '', // Will be replaced later
 	} satisfies Partial<IdNameAttribute>);
 }
 
@@ -112,7 +129,7 @@ function enterClassNameAttribute(this: CompileContext, token: Token) {
 	node.children.push({
 		type: 'classNameAttribute',
 		position: {start: token.start, end: token.end},
-		// @ts-expect-error: missing `name` is added later.
+		name: '', // Will be replaced later
 	} satisfies Partial<ClassNameAttribute>);
 }
 
@@ -130,7 +147,8 @@ function enterKeyValuePairAttribute(this: CompileContext, token: Token) {
 	node.children.push({
 		type: 'keyValueAttribute',
 		position: {start: token.start, end: token.end},
-		// @ts-expect-error: missing `key` and `value` are added later.
+		key: '', // Will be replaced later
+		value: '', // Will be replaced later
 	} satisfies Partial<KeyValueAttribute>);
 }
 
