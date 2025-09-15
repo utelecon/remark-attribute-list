@@ -8,7 +8,7 @@
 	"files": ["dist"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cm-ayf/remark-attribute-list.git"
+    "url": "git+https://github.com/utelecon/remark-attribute-list.git"
   },
   "scripts": {
     "build": "tsc",
@@ -27,9 +27,9 @@
   "author": "cm-ayf <cm.ayf2734@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cm-ayf/remark-attribute-list/issues"
+    "url": "https://github.com/utelecon/remark-attribute-list/issues"
   },
-  "homepage": "https://github.com/cm-ayf/remark-attribute-list#readme",
+  "homepage": "https://github.com/utelecon/remark-attribute-list#readme",
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.2",
     "@types/hast": "^3.0.3",
