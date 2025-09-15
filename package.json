@@ -1,6 +1,6 @@
 {
   "name": "remark-attribute-list",
-  "version": "0.4.0-rc.2",
+  "version": "0.4.0",
   "description": "Remark plugin to parse and apply Attribute List from Kramdown",
   "type": "module",
   "main": "dist/index.js",
